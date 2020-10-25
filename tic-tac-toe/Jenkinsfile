@@ -16,13 +16,18 @@ withEnv(["CHROME_BIN=/usr/bin/google-chrome-stable", "DISPLAY=:99.0", 'CI=true',
   }
 
   try {
-    stage('Test') {
-      withEnv(["CHROME_BIN=/usr/bin/google-chrome-stable", "DISPLAY=:99.0", 'CI=true', "NODE_ENV=CI"]) {
-        sh 'printenv'
-        timeout(40) {
-              mvn363 '-f tic-tac-toe/pom.xml clean install -s tic-tac-toe/settings.xml'
+      String jdktool = tool name: jdk8, type: 'hudson.model.JDK'
+
+      withEnv(["PATH+JDK=${jdktool}/bin", "JAVA_HOME=${jdktool}"]) {
+
+        stage('Test') {
+          withEnv(["CHROME_BIN=/usr/bin/google-chrome-stable", "DISPLAY=:99.0", 'CI=true', "NODE_ENV=CI"]) {
+            sh 'printenv'
+            timeout(40) {
+                  mvn363 '-f tic-tac-toe/pom.xml clean install -s tic-tac-toe/settings.xml'
+              }
+            }
           }
-        }
       }
     } catch (Exception e) {
       println e
