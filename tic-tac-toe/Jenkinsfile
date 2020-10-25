@@ -1,0 +1,39 @@
+node ('SpotChrome'){
+
+def branchName;
+withEnv(["CHROME_BIN=/usr/bin/google-chrome-stable", "DISPLAY=:99.0", 'CI=true', "NODE_ENV=CI"]) {
+        sh 'printenv'
+    branchName = getCurrentBranch()
+    echo 'My branch is: ' + branchName
+}
+
+  def mvn = tool name: 'mvn363'
+  stage('Checkout') {
+    checkout([$class: 'GitSCM', branches: [[name: branchName]],
+      extensions       : [[$class: 'CloneOption', timeout: 30]],
+      userRemoteConfigs: [[url: 'https://github.com/michal-shitrit/tic-tac-toe1.git']]
+    ])
+  }
+
+  try {
+    stage('Test') {
+      withEnv(["CHROME_BIN=/usr/bin/google-chrome-stable", "DISPLAY=:99.0", 'CI=true', "NODE_ENV=CI"]) {
+        sh 'printenv'
+        timeout(40) {
+              sh 'mvn clean install'
+          }
+        }
+      }
+    } catch (Exception e) {
+      println e
+      currentBuild.result = 'UNSTABLE'
+  }
+}
+
+def getCurrentBranch () {
+    if ("$env.BRANCH_NAME" == 'master'){
+      return  'master';
+    }
+
+    return "$env.CHANGE_BRANCH"
+}
