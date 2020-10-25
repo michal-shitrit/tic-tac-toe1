@@ -16,7 +16,7 @@ withEnv(["CHROME_BIN=/usr/bin/google-chrome-stable", "DISPLAY=:99.0", 'CI=true',
   }
 
   try {
-      String jdktool = tool name: jdk8, type: 'hudson.model.JDK'
+      String jdktool = tool name: 'jdk8', type: 'hudson.model.JDK'
 
       withEnv(["PATH+JDK=${jdktool}/bin", "JAVA_HOME=${jdktool}"]) {
 
