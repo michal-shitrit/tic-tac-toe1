@@ -7,7 +7,7 @@ withEnv(["CHROME_BIN=/usr/bin/google-chrome-stable", "DISPLAY=:99.0", 'CI=true',
     echo 'My branch is: ' + branchName
 }
 
-  def mvn = tool name: 'mvn363'
+
   stage('Checkout') {
     checkout([$class: 'GitSCM', branches: [[name: branchName]],
       extensions       : [[$class: 'CloneOption', timeout: 30]],
@@ -20,7 +20,7 @@ withEnv(["CHROME_BIN=/usr/bin/google-chrome-stable", "DISPLAY=:99.0", 'CI=true',
       withEnv(["CHROME_BIN=/usr/bin/google-chrome-stable", "DISPLAY=:99.0", 'CI=true', "NODE_ENV=CI"]) {
         sh 'printenv'
         timeout(40) {
-              sh 'mvn -f tic-tac-toe/pom.xml clean install'
+              mvn363 'mvn -f tic-tac-toe/pom.xml clean install'
           }
         }
       }
