@@ -94,4 +94,9 @@ public class gameTest {
         game.playComputerMove(player1,player2);
         Assertions.assertTrue(game.isPlayerWon(player1));
     }
+
+    @Test
+    public void testPrintBoard(){
+        game.printCurrentBoard();
+    }
 }
