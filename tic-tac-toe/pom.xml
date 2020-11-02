@@ -55,7 +55,7 @@
                 <version>4.3.0</version>
                 <configuration>
                     <repoToken>O6ohwooQdVahFvcPXG2aFFT7a56S0fmy1</repoToken>
-                    <sourceEncoding>UTF-8</sourceEncoding>
+                  <!--  <sourceEncoding>UTF-8</sourceEncoding>-->
                 </configuration>
 
             </plugin>
